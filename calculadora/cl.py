@@ -167,3 +167,7 @@ def pow(img, num):
     res = np.power(img, num)
     res  = res.astype(np.uint8)
     return res
+res = pow(img1, 0.5)
+cv2.imshow("resultado", res)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
