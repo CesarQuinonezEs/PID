@@ -4,10 +4,14 @@ import cv2
 from PIL import Image, ImageTk
 import numpy as np
 
-img1 = cv2.imread('W:\PROGRAMACION\8vo_semestre\PDI\PID\calculadora\imgs\Baboon.tiff', 1)
-img2 = cv2.imread('W:\PROGRAMACION\8vo_semestre\PDI\PID\calculadora\imgs\Splash.tiff', 1)
+img1 = cv2.imread(
+    '/home/cesar/Desktop/PDI/PID/calculadora/imgs/Baboon.tiff', 1)
+img2 = cv2.imread(
+    '/home/cesar/Desktop/PDI/PID/calculadora/imgs/Splash.tiff', 1)
 img1 = cv2.resize(img1, (200, 200))
 img2 = cv2.resize(img2, (200, 200))
+
+
 def invColor(img):
     auxIm = 255 - img
     return auxIm
@@ -48,13 +52,15 @@ def umBinInv(img, umbral_min, umbral_max):
     return imagen_binarizada
 
 
-def opExt(img, valor_minimo,valor_maximo):
+def opExt(img, valor_minimo, valor_maximo):
     imagen_gris = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     min_valor_original = np.min(imagen_gris)
     max_valor_original = np.max(imagen_gris)
-    imagen_extendida = np.interp(imagen_gris, (min_valor_original, max_valor_original), (valor_minimo, valor_maximo))
+    imagen_extendida = np.interp(
+        imagen_gris, (min_valor_original, max_valor_original), (valor_minimo, valor_maximo))
     imagen_extendida = imagen_extendida.astype(np.uint8)
     return imagen_extendida
+
 
 def opRedLvlGray(img, niveles_de_gris_reducidos):
     imagen_gris = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -63,11 +69,14 @@ def opRedLvlGray(img, niveles_de_gris_reducidos):
     imagen_reducida = (255.0 / niveles_de_gris_reducidos) * imagen_reducida
     imagen_reducida = imagen_reducida.astype(np.uint8)
     return imagen_reducida
+
+
 def andLogi(img1, img2):
     img1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
     img2 = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
     resultado_and = np.logical_and(img1, img2).astype(np.uint8) * 255
     return resultado_and
+
 
 def orLogi(img1, img2):
     img1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
@@ -75,17 +84,21 @@ def orLogi(img1, img2):
     resultado = np.logical_or(img1, img2).astype(np.uint8) * 255
     return resultado
 
+
 def notLogic(img1, img2):
     img1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
     img2 = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
     resultado = np.logical_not(img1, img2).astype(np.uint8) * 255
     return resultado
 
+
 def xorLogi(img1, img2):
     img1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
     img2 = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
     resultado = np.logical_xor(img1, img2).astype(np.uint8) * 255
     return resultado
+# Aritmetica basica con dos imagenes
+
 
 def sum(img1, img2):
     img1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
@@ -93,11 +106,13 @@ def sum(img1, img2):
     resultado = img1 + img2
     return resultado
 
+
 def res(img1, img2):
     img1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
     img2 = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
     resultado = img1 - img2
     return resultado
+
 
 def mul(img1, img2):
     img1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
@@ -105,12 +120,14 @@ def mul(img1, img2):
     resultado = img1 * img2
     return resultado
 
+
 def div(img1, img2):
     img1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
     img2 = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
-    divisor = np.where(img2 == 0, 1, img2) 
+    divisor = np.where(img2 == 0, 1, img2)
     resultado = img1 / divisor
     return resultado
+
 
 def absRes(img1, img2):
     img1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
@@ -118,7 +135,35 @@ def absRes(img1, img2):
     resultado = np.abs(img1 - img2)
     return resultado
 
-res = mul(img1, img2)
-cv2.imshow("resultado", res)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
+# Aritmetica basica con escalar
+
+
+def sumEs(img1, num):
+    img1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
+    resultado = img1 + num
+    return resultado
+
+
+def resEs(img1, num):
+    img1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
+
+    resultado = img1 - num
+    return resultado
+
+
+def mulEs(img1, num):
+    img1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
+    resultado = img1 * num
+    return resultado
+
+
+def divEs(img1, num):
+    img1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
+    if num > 0:
+        resultado = img1 / num
+    return resultado
+
+def pow(img, num):
+    res = np.power(img, num)
+    res  = res.astype(np.uint8)
+    return res
