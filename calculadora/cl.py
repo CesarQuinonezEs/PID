@@ -1,7 +1,4 @@
-import tkinter as tk
-from tkinter import filedialog
 import cv2
-from PIL import Image, ImageTk
 import numpy as np
 
 img1 = cv2.imread(
@@ -24,6 +21,7 @@ def invGray(img):
 
 
 def umbral(img, umb):
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     img2 = img
     indx = img <= umb
     img2[indx] = 0
@@ -33,9 +31,13 @@ def umbral(img, umb):
 
 
 def umbralinv(img, umb):
-    imagen_gris = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    imagen_umbral_inverso = 255 - (imagen_gris > umb) * 255
-    return imagen_umbral_inverso
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    img2 = img
+    indx = img <= umb
+    img2[indx] = 255
+    indx2 = img > umb
+    img2[indx2] = 0
+    return img2
 
 
 def umBin(img, umbral_min, umbral_max):
@@ -167,7 +169,3 @@ def pow(img, num):
     res = np.power(img, num)
     res  = res.astype(np.uint8)
     return res
-res = pow(img1, 0.5)
-cv2.imshow("resultado", res)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
