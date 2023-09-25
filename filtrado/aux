@@ -1,0 +1,63 @@
+import tkinter as tk
+
+def get_matrix_values():
+    matrix = []
+    for i in range(3):
+        row = []
+        for j in range(3):
+            try:
+                value = float(entry_fields[i][j].get())
+                row.append(value)
+            except ValueError:
+                return None  # Si no se ingresó un número válido, retorna None
+        matrix.append(row)
+    return matrix
+
+def submit_matrix():
+    matrix = get_matrix_values()
+    if matrix:
+        print("Matriz ingresada:")
+        for row in matrix:
+            print(row)
+    else:
+        print("Por favor, ingresa valores numéricos válidos en todos los campos.")
+
+# Crear la ventana principal
+root = tk.Tk()
+root.title("Ingresar Matriz 3x3")
+
+# Crear campos de entrada
+entry_fields = []
+for i in range(3):
+    row_entries = []
+    for j in range(3):
+        entry = tk.Entry(root, width=10)
+        entry.grid(row=i, column=j)
+        row_entries.append(entry)
+    entry_fields.append(row_entries)
+
+# Botón para enviar la matriz
+submit_button = tk.Button(root, text="Enviar Matriz", command=submit_matrix)
+submit_button.grid(row=3, columnspan=3)
+
+root.mainloop()
+
+
+import tkinter as tk
+
+def open_new_window():
+    new_window = tk.Toplevel(root)
+    new_window.title("Ventana Secundaria")
+    
+    label = tk.Label(new_window, text="¡Esta es la ventana secundaria!")
+    label.pack()
+
+# Crear la ventana principal
+root = tk.Tk()
+root.title("Ventana Principal")
+
+# Botón para abrir la ventana secundaria
+button = tk.Button(root, text="Abrir Ventana Secundaria", command=open_new_window)
+button.pack()
+
+root.mainloop()

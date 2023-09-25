@@ -124,14 +124,41 @@ def media(img):
     plt.title('Filtro media')
     plt.show()
 
-cv2.imshow('nose',img)
-cv2.waitKey(0)
-kernel = np.array([[ -1, -1, -1], 
-                   [ -1, 4, -1], 
-                   [ -1, -1, -1]])
+def gradX(img):
+    scale = 1
+    delta = 0
+    ddepth = cv2.CV_16S
+    grad_x = cv2.Sobel(img, ddepth, 1, 0, ksize=3, scale=scale, delta=delta, borderType=cv2.BORDER_DEFAULT)
+    abs_grad_x = cv2.convertScaleAbs(grad_x)
+    plt.figure(figsize=[30,30])
+    plt.imshow(grad_x, cmap='gray', vmin=grad_x.min(), vmax=grad_x.max())
+    plt.title('Filtro gradiente en X')
+    plt.show()
+def gradY(img):
+    scale = 1
+    delta = 0
+    ddepth = cv2.CV_16S
+    grad_y = cv2.Sobel(img, ddepth, 0, 1, ksize=3, scale=scale, delta=delta, borderType=cv2.BORDER_DEFAULT)
+    abs_grad_y = cv2.convertScaleAbs(grad_y)
+    plt.imshow(grad_y,cmap='gray', vmin=grad_y.min(), vmax=grad_y.max()),
+    plt.title('Gradiente en Y')
+    plt.show()
+    
+def lap(img):
+    ddepth = cv2.CV_16S
+    kernel_size = 3
 
-suav(img,kernel)
-# el mismo proceso de convolución con función OpenCV
+    # Remove noise by blurring with a Gaussian filter
+    src = cv2.GaussianBlur(img, (3, 3), 0)
+
+    # Apply Laplace function
+    dst = cv2.Laplacian(src, ddepth, ksize=kernel_size)
+    # converting back to uint8
+    abs_dst = cv2.convertScaleAbs(dst)
+    plt.figure(figsize=[30,30])
+    plt.imshow(dst, cmap='gray', vmin=dst.min(), vmax=dst.max())
+    plt.title('Filtro lapaciano')
+    plt.show()
 
 
 
