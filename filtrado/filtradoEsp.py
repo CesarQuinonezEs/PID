@@ -20,13 +20,10 @@ img = cv2.imdecode (img_array, cv2.IMREAD_GRAYSCALE)
 
 
 
-def suav(img):
-    kernel_size = 15;
-    kernel = np.ones((kernel_size,kernel_size)) / (kernel_size * kernel_size)
-    ddepth = -1
-    dst = cv2.filter2D(img, ddepth, kernel)
+def suav(img,kernel):
+    dst = cv2.filter2D(img, -1, kernel)
     plt.figure(figsize=[20,20])
-    plt.imshow(dst,cmap='gray', vmin=0, vmax=255)
+    plt.imshow(dst,cmap='gray')
     plt.title('imagen suavisada')
     plt.show()
     
@@ -125,8 +122,14 @@ def media(img):
     plt.imshow(median, cmap='gray', vmin=0, vmax=255)
     plt.title('Filtro media')
     plt.show()
-    
-suav(img)
+
+cv2.imshow('nose',img)
+cv2.waitKey(0)
+kernel = np.array([[ 0.05, 0, 0.05], 
+                   [ 0.2, 0, 0.2], 
+                   [ 0.05, 0, -0.05]])
+
+suav(img,kernel)
 # el mismo proceso de convolución con función OpenCV
 
 
