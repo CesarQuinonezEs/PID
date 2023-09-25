@@ -123,8 +123,10 @@ class ImageLoaderApp:
     def ejecutar_funcion(self):
         img = np.zeros((200,200,3))
         opcion = self.opcion_seleccionada.get()
-        num = self.num
-        print("tipo de num", type(num))
+        num = self.num.get()
+        min = self.min.get()
+        max = self.max.get()
+        
         if self.image1.max() > 0:
             self.image1 = cv2.resize(self.image1, (200,200))
             print(img.shape)
@@ -136,17 +138,17 @@ class ImageLoaderApp:
         elif opcion == "2- invertido en escala de grises":
                 img = cl.invGray(self.image1)
         elif opcion == "3- Umbral":
-                img = cl.umbral(self.image1, self.num)
+                img = cl.umbral(self.image1, num)
         elif opcion == "4- Umbral invertido":
-                img = cl.umbralinv(self.image2, self.num)
+                img = cl.umbralinv(self.image2, num)
         elif opcion == "5 - umbral binario":
-                img = cl.umBin(self.image1, self.min, self.max)  
+                img = cl.umBin(self.image1, min,max)  
         elif opcion == "7 - umbral binario invertido":
-            img = cl.umBinInv(self.image1, self.min, self.max)  
+            img = cl.umBinInv(self.image1, min, max)  
         elif opcion == "8 - Operador exponente":
-            img = cl.opExt(self.image1, self.min, self.max)  
+            img = cl.opExt(self.image1, min, max)  
         elif opcion == "9 - Operador niveles de gris":
-            img = cl.umBin(self.image1, self.min, self.max)  
+            img = cl.umBin(self.image1, min, max)  
         elif opcion == "10 - AND":
             img = cl.andLogi(self.image1, self.image2)  
         elif opcion == "11 - OR":
@@ -165,17 +167,17 @@ class ImageLoaderApp:
             img = cl.div(self.image1, self.image2)  
         elif opcion == "18 - suma (Escalar)":
             print(self.num)
-            img = cl.sumEs(self.image1, self.num) 
+            img = cl.sumEs(self.image1, num) 
         elif opcion == "19 - Resta (Escalar)":
-            img = cl.resEs(self.image1, self.num)
+            img = cl.resEs(self.image1, num)
         elif opcion == "20 - Multiplicacion (Escalar)":
-            img = cl.mulEs(self.image1, self.num)
+            img = cl.mulEs(self.image1, num)
         elif opcion == "21 - Division (Escalar)":
-            img = cl.divEs(self.image1, self.num)
+            img = cl.divEs(self.image1, num)
         elif opcion == "22 - Valor absolluto":
             img = cl.absRes(self.image1, self.image2)
         elif opcion == "23- Potencia":
-            img = cl.pow(self.image1, self.num)    
+            img = cl.pow(self.image1, num)    
         cv2.imshow("Resultado", img)
         cv2.waitKey(0)
         cv2.destroyAllWindows()

@@ -1,12 +1,6 @@
 import cv2
 import numpy as np
 
-img1 = cv2.imread(
-    '/home/cesar/Desktop/PDI/PID/calculadora/imgs/Baboon.tiff', 1)
-img2 = cv2.imread(
-    '/home/cesar/Desktop/PDI/PID/calculadora/imgs/Splash.tiff', 1)
-img1 = cv2.resize(img1, (200, 200))
-img2 = cv2.resize(img2, (200, 200))
 
 
 def invColor(img):
