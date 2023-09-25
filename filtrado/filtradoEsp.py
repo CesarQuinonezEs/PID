@@ -21,6 +21,7 @@ img = cv2.imdecode (img_array, cv2.IMREAD_GRAYSCALE)
 
 
 def suav(img,kernel):
+    kernel = kernel/np.sum(kernel)
     dst = cv2.filter2D(img, -1, kernel)
     plt.figure(figsize=[20,20])
     plt.imshow(dst,cmap='gray')
@@ -125,9 +126,9 @@ def media(img):
 
 cv2.imshow('nose',img)
 cv2.waitKey(0)
-kernel = np.array([[ 0.05, 0, 0.05], 
-                   [ 0.2, 0, 0.2], 
-                   [ 0.05, 0, -0.05]])
+kernel = np.array([[ -1, -1, -1], 
+                   [ -1, 4, -1], 
+                   [ -1, -1, -1]])
 
 suav(img,kernel)
 # el mismo proceso de convolución con función OpenCV
