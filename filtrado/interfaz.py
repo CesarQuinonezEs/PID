@@ -16,7 +16,7 @@ img_array = np.asarray(bytearray(url_response.read()), dtype="uint8")
 
 # decodifica la imagen
 img = cv2.imdecode (img_array, cv2.IMREAD_GRAYSCALE)
-
+entry_fields = []
 def get_matrix_values():
     matrix = []
     for i in range(3):
@@ -28,26 +28,35 @@ def get_matrix_values():
             except ValueError:
                 return None  # Si no se ingresó un número válido, retorna None
         matrix.append(row)
-    return matrix
+    
+    kernel = np.array(matrix)
+    kernel = kernel/np.sum(kernel)
+    print(kernel)
+    fl.suav(img,kernel)
+    
+def get_matrix_values2():
+    matrix = []
+    for i in range(3):
+        row = []
+        for j in range(3):
+            try:
+                value = float(entry_fields[i][j].get())
+                row.append(value)
+            except ValueError:
+                return None  # Si no se ingresó un número válido, retorna None
+        matrix.append(row)
+    
+    kernel = np.array(matrix)
+    kernel = kernel/np.sum(kernel)
+    print(kernel)
+    fl.con(img,kernel)
 
 
-def submit_matrix():
-    matrix = get_matrix_values()
-    if matrix:
-        print("Matriz ingresada:")
-        for row in matrix:
-            print(row)
-    else:
-        print("Por favor, ingresa valores numéricos válidos en todos los campos.")
 
-
-def open_new_window():
+def open_new_window(flg):
     new_window = tk.Toplevel(root)
     new_window.title("Matriz para el filtrado")
     
-    label = tk.Label(new_window, text="Matriz 3X3")
-    label.pack()
-    entry_fields = []
     for i in range(3):
         row_entries = []
         for j in range(3):
@@ -56,35 +65,41 @@ def open_new_window():
             row_entries.append(entry)
         entry_fields.append(row_entries)
 # Botón para enviar la matriz
-    submit_button = tk.Button(new_window, text="Enviar Matriz", command=submit_matrix)
+    if flg == 1:
+        submit_button = tk.Button(new_window, text="Enviar Matriz", command=get_matrix_values)
+    else:
+        submit_button = tk.Button(new_window, text="Enviar Matriz", command=get_matrix_values2)
     submit_button.grid(row=3, columnspan=3)
     
 def seleccionar_opcion():
     opcion_seleccionada = opcion.get()
     
     if opcion_seleccionada == "Suavizado":
-        open_new_window()
+        open_new_window(1)
     elif opcion_seleccionada == "BORDER_CONSTANT":
-       fl.bc()
+       fl.bc(img)
     elif opcion_seleccionada == "BORDER_REPLICATE":
-        messagebox.showinfo("Opción seleccionada", "Has seleccionado BORDER_REPLICATE")
+        fl.brp(img)
     elif opcion_seleccionada == "BORDER_REFLECT":
-        messagebox.showinfo("Opción seleccionada", "Has seleccionado BORDER_REFLECT")
+        fl.brf(img)
     elif opcion_seleccionada == "BORDER_WRAP":
-        messagebox.showinfo("Opción seleccionada", "Has seleccionado BORDER_WRAP")
+        fl.bw(img)
     elif opcion_seleccionada == "Filtro promedio":
         messagebox.showinfo("Opción seleccionada", "Has seleccionado Filtro promedio")
     elif opcion_seleccionada == "Filtro gaussiano":
-        messagebox.showinfo("Opción seleccionada", "Has seleccionado Filtro gaussiano")
+        fl.fgausiano(img)
     elif opcion_seleccionada == "Media":
-        messagebox.showinfo("Opción seleccionada", "Has seleccionado Media")
+        fl.media(img)
     elif opcion_seleccionada == "Gradiente en X":
-        messagebox.showinfo("Opción seleccionada", "Has seleccionado Gradiente en X")
+        fl.gradX(img)
     elif opcion_seleccionada == "Gradiente en Y":
-        messagebox.showinfo("Opción seleccionada", "Has seleccionado Gradiente en Y")
+        fl.gradY(img)
+    elif opcion_seleccionada == "Noisy":
+        fl.noisy(img)
     elif opcion_seleccionada == "Laplaciano":
-        messagebox.showinfo("Opción seleccionada", "Has seleccionado Laplaciano")
-
+        fl.lap(img)
+    elif opcion_seleccionada == "Convoluciones":
+        open_new_window(2)
 # Crear la ventana principal
 root = tk.Tk()
 root.title("Selección de Opción")
@@ -95,7 +110,7 @@ opcion.set("Suavizado")
 
 # Crear lista de opciones
 opciones = ["Suavizado", "BORDER_CONSTANT", "BORDER_REPLICATE", "BORDER_REFLECT", "BORDER_WRAP",
-            "Filtro promedio", "Filtro gaussiano", "Media", "Gradiente en X", "Gradiente en Y", "Laplaciano"]
+            "Filtro promedio", "Filtro gaussiano", "Media", "Gradiente en X", "Gradiente en Y", "Laplaciano", "Noisy", "Convoluciones"]
 
 # Crear lista desplegable
 opcion_lista = tk.OptionMenu(root, opcion, *opciones)
